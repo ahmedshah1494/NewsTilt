@@ -10,6 +10,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': os.environ['postgres_pwd'],
         'HOST': 'localhost',
-        'PORT': 5432
+        'PORT': 5432,
+        'ATOMIC_REQUESTS': True
     }
 }

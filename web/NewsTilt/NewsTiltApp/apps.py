@@ -5,4 +5,7 @@ from django.apps import AppConfig
 
 
 class NewstiltappConfig(AppConfig):
-    name = 'NewsTiltApp'
+    name = 'NewsTilt.NewsTiltApp'
+
+    def ready(self):
+        import signals

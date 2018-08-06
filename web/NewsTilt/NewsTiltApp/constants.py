@@ -1,0 +1,11 @@
+"""Definitions of constants."""
+
+SUCCESS = 0
+
+# Errors
+USERNAME_IN_USE = 1
+AUTH_FAILED = 4
+
+# Warnings
+CATEGORY_ALREADY_SUBSCRIBED = 2
+CATEGORY_NOT_SUBSCRIBED = 3
