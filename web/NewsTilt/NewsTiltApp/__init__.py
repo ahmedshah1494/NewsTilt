@@ -1,1 +1,1 @@
-default_app_config = 'NewsTilt.NewsTiltApp.apps.NewstiltappConfig'
+# default_app_config = 'web.NewsTilt.NewsTiltApp.apps.NewstiltappConfig'
