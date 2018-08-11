@@ -12,9 +12,7 @@ ROOT_URLCONF = 'web.NewsTilt.NewsTiltApp.urls'
 WSGI_APPLICATION = 'web.NewsTilt.wsgi.application'
 
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(
-    default=os.environ['DATABASE_URL']
-)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
