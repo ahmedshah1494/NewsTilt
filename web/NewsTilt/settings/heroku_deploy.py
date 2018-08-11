@@ -22,6 +22,6 @@ EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CRONJOBS = [
-    ('*/2 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
-    ('*/2 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
+    ('*/15 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
+    ('*/30 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
 ]
