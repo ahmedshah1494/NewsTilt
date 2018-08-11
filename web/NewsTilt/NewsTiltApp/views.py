@@ -115,7 +115,7 @@ def get_user_profile(request):
 def get_feed(request, n_items):
     user = request.user
     if user.categories.all().count() == 0:
-        articles = articles.objects.all()
+        articles = Article.objects.all()
     else:
         articles = Article.objects.filter(categories__in=user.categories.all())
     serializer = ArticleSerializer(articles, many=True)

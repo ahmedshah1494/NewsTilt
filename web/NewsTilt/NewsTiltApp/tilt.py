@@ -10,6 +10,8 @@ USER_CONFORMITY_WEIGHT = 0.2
 USER_LIKE_WEIGHT = 0.45
 USER_VIEW_WEIGHT= 0.25
 
+EPS = 1e-5
+
 def recalculate_article_tilt(article, action):
     swipes = Swipe.objects.filter(article=article)
     views = View.objects.filter(article=article)
@@ -17,15 +19,15 @@ def recalculate_article_tilt(article, action):
     user_tilt = action.user.tilt
     if isinstance(action, Swipe):
         score = (-1.0 if action.direction == 'l' else 1.0)*(1-abs(user_tilt))
-        n_swipes = swipes.count()
+        n_swipes = swipes.count() + EPS
         article.swipe_score = (article.swipe_score*(n_swipes-1) + score) / n_swipes
         
     if isinstance(action, Like):
-        n_likes = likes.count()
+        n_likes = likes.count() + EPS
         article.like_score = (article.like_score*(n_likes-1) + user_tilt) / n_likes
 
     if isinstance(action, View):
-        n_views = views.count()
+        n_views = views.count() + EPS
         article.view_score = (article.view_score*(n_views-1) + user_tilt) / n_views
 
     article.tilt = ARTICLE_SWIPE_WEIGHT*article.swipe_score + ARTICLE_LIKE_WEIGHT*article.like_score + ARTICLE_VIEW_WEIGHT*article.view_score
@@ -37,8 +39,8 @@ def recalculate_user_tilt(user, action):
     likes = Like.objects.filter(user=user)
     views = View.objects.filter(user=user)
 
-    n_right_swipes = right_swipes.count()
-    n_left_swipes = left_swipes.count()
+    n_right_swipes = right_swipes.count() + EPS
+    n_left_swipes = left_swipes.count() + EPS
     n_swipes = n_right_swipes + n_left_swipes
     article_tilt = action.article.tilt
 
@@ -51,11 +53,11 @@ def recalculate_user_tilt(user, action):
             user.conformity_score_right = (user.conformity_score_right*(n_right_swipes-1) + article_tilt) / n_right_swipes
 
     if isinstance(action, Like):
-        n_likes = likes.count()
+        n_likes = likes.count() + EPS
         user.like_score = (user.like_score*(n_likes-1) + article_tilt) / n_likes
 
     if isinstance(action, View):
-        n_views = views.count()
+        n_views = views.count() + EPS
         user.view_score = (user.view_score*(n_views-1) + article_tilt) / n_views
 
     conformity_score = 0.5 * (user.conformity_score_right + user.conformity_score_left)

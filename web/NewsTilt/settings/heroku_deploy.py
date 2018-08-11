@@ -1,5 +1,7 @@
 from .base import *
 
+SECRET_KEY = os.environ['SECRET_KEY']
+
 DEBUG = False
 
 INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]

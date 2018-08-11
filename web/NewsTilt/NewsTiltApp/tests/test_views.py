@@ -132,7 +132,7 @@ class ViewTests(TestCase):
         add_middleware_to_request(request, SessionMiddleware)
         response = get_feed(request,3)
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(len(response.data), 0)
+        self.assertEquals(len(response.data), 10)
 
         my_cats = Category.objects.all()[:2]
         for cat in my_cats:

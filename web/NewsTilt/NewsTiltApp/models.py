@@ -8,8 +8,6 @@ from django.contrib.auth import login
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
-from NewsTilt.settings import base as base_settings
-
 from .constants import *
 from .mixins import *
 
@@ -56,8 +54,7 @@ class Publication(Categorizable, models.Model):
     
     name = models.CharField(max_length=100, null=False, blank=False, unique=True)
     categories = models.ManyToManyField(Category)
-    image = models.ImageField(upload_to=os.path.join(base_settings.MEDIA_ROOT,
-                                                     "publication_icons"))
+    image_url = models.URLField(blank=True)
     authors = models.ManyToManyField(Author)
     tilt = models.FloatField(default=0.0)
 

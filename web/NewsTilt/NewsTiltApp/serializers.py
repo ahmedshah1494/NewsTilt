@@ -15,7 +15,7 @@ class PublicationSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     authors = AuthorSerializer(many=True)
     class Meta:
-        fields = ['id','name', 'categories', 'image', 'authors', 'tilt']
+        fields = ['id','name', 'categories', 'image_url', 'authors', 'tilt']
         model = Publication
 
 class MUserSerializer(serializers.ModelSerializer):
