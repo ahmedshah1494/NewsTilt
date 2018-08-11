@@ -6,7 +6,7 @@ DEBUG = False
 
 INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
 
-ROOT_URLCONF = 'web.NewsTilt.urls'
+ROOT_URLCONF = 'web.NewsTilt.NewsTiltApp.urls'
 WSGI_APPLICATION = 'web.NewsTilt.wsgi.application'
 
 DATABASE_URL = os.environ['DATABASE_URL']
