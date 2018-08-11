@@ -3,7 +3,7 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-INSTALLED_APPS += ['NewsTilt.NewsTiltApp',]
+INSTALLED_APPS += ['NewsTilt.NewsTiltApp']
 
 ROOT_URLCONF = 'NewsTilt.urls'
 WSGI_APPLICATION = 'NewsTilt.wsgi.application'
@@ -13,7 +13,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'newstilt',
         'USER': 'postgres',
-        'PASSWORD': os.environ['postgres_pwd'],
+        'PASSWORD': 'cUkEtrE3',
         'HOST': 'localhost',
         'PORT': 5432,
         'ATOMIC_REQUESTS': True

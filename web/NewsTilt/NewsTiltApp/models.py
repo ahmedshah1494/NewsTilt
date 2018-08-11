@@ -93,4 +93,4 @@ class Swipe(Action):
     """User swipe."""
 
     direction = models.CharField(max_length=1, choices=[('left','l'), ('right','r')], null=False)
-    weight = models.FloatField(default=0.0)
+    weight = models.FloatField(default=1.0)
