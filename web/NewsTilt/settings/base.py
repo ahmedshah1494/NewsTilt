@@ -55,11 +55,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CRONJOBS = [
-    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
-    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
-]
-
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 

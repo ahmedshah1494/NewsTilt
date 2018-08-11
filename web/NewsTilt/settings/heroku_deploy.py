@@ -1,3 +1,5 @@
+from .base import *
+
 DEBUG = False
 
 DATABASE_URL = os.environ['DATABASE_URL']

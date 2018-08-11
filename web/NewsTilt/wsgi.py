@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "NewsTilt.settings.heroku_deploy")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.NewsTilt.settings.heroku_deploy")
 
 application = get_wsgi_application()
