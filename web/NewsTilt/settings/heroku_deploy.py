@@ -1,4 +1,6 @@
 from .base import *
+import dj_database_url
+import os 
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
@@ -9,7 +11,10 @@ INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
 ROOT_URLCONF = 'web.NewsTilt.NewsTiltApp.urls'
 WSGI_APPLICATION = 'web.NewsTilt.wsgi.application'
 
-DATABASE_URL = os.environ['DATABASE_URL']
+DATABASES = {}
+DATABASES['default'] = dj_database_url.config(
+    default=os.environ['DATABASE_URL']
+)
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
