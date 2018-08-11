@@ -118,6 +118,7 @@ def get_feed(request, n_items):
         articles = Article.objects.all()
     else:
         articles = Article.objects.filter(categories__in=user.categories.all())
+    articles.order_by('-date_added')[:n_items]
     serializer = ArticleSerializer(articles, many=True)
     data = serializer.data
     for article in data:
