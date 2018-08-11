@@ -5,10 +5,10 @@ ARTICLE_SWIPE_WEIGHT = 0.6
 ARTICLE_LIKE_WEIGHT = 0.25
 ARTICLE_VIEW_WEIGHT = 0.15
 
-USER_BIAS_WEIGHT = 0.2
+USER_BIAS_WEIGHT = 0.1
 USER_CONFORMITY_WEIGHT = 0.2
 USER_LIKE_WEIGHT = 0.45
-USER_VIEW_WEIGHT= 0.15
+USER_VIEW_WEIGHT= 0.25
 
 def recalculate_article_tilt(article, action):
     swipes = Swipe.objects.filter(article=article)
@@ -40,10 +40,9 @@ def recalculate_user_tilt(user, action):
     n_right_swipes = right_swipes.count()
     n_left_swipes = left_swipes.count()
     n_swipes = n_right_swipes + n_left_swipes
-
     article_tilt = action.article.tilt
 
-    bias_penalty = (n_right_swipes - n_left_swipes)/n_swipes
+    bias_penalty = float(n_left_swipes - n_right_swipes)/n_swipes
 
     if isinstance(action, Swipe):
         if action.direction == 'l':
@@ -59,6 +58,16 @@ def recalculate_user_tilt(user, action):
         n_views = views.count()
         user.view_score = (user.view_score*(n_views-1) + article_tilt) / n_views
 
-    conformity_score = 0.5 * (user.conformity_score_right + conformity_score_left)
+    conformity_score = 0.5 * (user.conformity_score_right + user.conformity_score_left)
     user.tilt = USER_BIAS_WEIGHT*bias_penalty + USER_CONFORMITY_WEIGHT*conformity_score + USER_LIKE_WEIGHT*user.like_score + USER_VIEW_WEIGHT*user.view_score
     user.save()
+
+def recalculate_author_tilt(author):
+    article_tilts = [x.tilt for x in Article.objects.filter(author=author)]
+    author.tilt = np.mean(article_tilts)
+    author.save()
+
+def recalculate_publication_tilt(pub):
+    article_tilts = [x.tilt for x in Article.objects.filter(source=pub)]
+    pub.tilt = np.mean(article_tilts)
+    pub.save()

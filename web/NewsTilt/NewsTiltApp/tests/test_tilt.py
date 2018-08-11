@@ -56,9 +56,9 @@ class TiltTests(TestCase):
         for i in range(2):
             user = MUserFactory()
             user.save()
-            swipe = Like(user=user, article=article)
-            swipe.save()
-            recalculate_article_tilt(article, swipe)
+            like = Like(user=user, article=article)
+            like.save()
+            recalculate_article_tilt(article, like)
             self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertEquals(article.tilt, 0)
 
@@ -66,9 +66,9 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = 1.0
         user.save()
-        swipe = Like(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        like = Like(user=user, article=article)
+        like.save()
+        recalculate_article_tilt(article, like)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertTrue(article.tilt > 0.0)
 
@@ -76,9 +76,9 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = -1.0
         user.save()
-        swipe = Like(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        like = Like(user=user, article=article)
+        like.save()
+        recalculate_article_tilt(article, like)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertEquals(article.tilt, 0.0)
 
@@ -86,13 +86,13 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = -1.0
         user.save()
-        swipe = Like(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        like = Like(user=user, article=article)
+        like.save()
+        recalculate_article_tilt(article, like)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertTrue(article.tilt < 0.0)
 
-    def test_article_like_score_basic(self):
+    def test_article_view_score_basic(self):
         article = ArticleFactory()
         article.save()
 
@@ -100,9 +100,9 @@ class TiltTests(TestCase):
         for i in range(2):
             user = MUserFactory()
             user.save()
-            swipe = View(user=user, article=article)
-            swipe.save()
-            recalculate_article_tilt(article, swipe)
+            view = View(user=user, article=article)
+            view.save()
+            recalculate_article_tilt(article, view)
             self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertEquals(article.tilt, 0)
 
@@ -110,9 +110,9 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = 1.0
         user.save()
-        swipe = View(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        view = View(user=user, article=article)
+        view.save()
+        recalculate_article_tilt(article, view)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertTrue(article.tilt > 0.0)
 
@@ -120,9 +120,9 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = -1.0
         user.save()
-        swipe = View(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        view = View(user=user, article=article)
+        view.save()
+        recalculate_article_tilt(article, view)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertEquals(article.tilt, 0.0)
 
@@ -130,8 +130,41 @@ class TiltTests(TestCase):
         user = MUserFactory()
         user.tilt = -1.0
         user.save()
-        swipe = View(user=user, article=article)
-        swipe.save()
-        recalculate_article_tilt(article, swipe)
+        view = View(user=user, article=article)
+        view.save()
+        recalculate_article_tilt(article, view)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
         self.assertTrue(article.tilt < 0.0)
+
+    def test_user_bias_basic(self):
+        user = MUserFactory()
+        user.save()
+
+        # if user does more left swipes, his right tilt would increase (ceterus paribus)
+        for i in range(5):
+            article = ArticleFactory()
+            article.save()
+            if i%2 == 0:
+                swipe = Swipe(user=user, article=article, direction='l')
+            else:
+                swipe = Swipe(user=user, article=article, direction='r')
+            swipe.save()
+            recalculate_user_tilt(user, swipe)
+
+        self.assertTrue(user.tilt > 0)
+
+        # tilt should become zero when left and right swipes become equal
+        article = ArticleFactory()
+        article.save()
+        swipe = Swipe(user=user, article=article, direction='r')
+        swipe.save()
+        recalculate_user_tilt(user, swipe)
+        self.assertEquals(user.tilt, 0)        
+
+        # left tilt should increase if user makes more right swipes
+        article = ArticleFactory()
+        article.save()
+        swipe = Swipe(user=user, article=article, direction='r')
+        swipe.save()
+        recalculate_user_tilt(user, swipe)
+        self.assertTrue(user.tilt < 0)

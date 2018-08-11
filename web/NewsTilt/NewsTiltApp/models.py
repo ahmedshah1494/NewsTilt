@@ -26,8 +26,7 @@ class Category(models.Model):
 class MUser(Categorizable, AbstractUser):
     """The custom user class for NT."""
 
-    categories = models.ManyToManyField(Category,
-                                        blank=True)
+    categories = models.ManyToManyField(Category)
     tilt = models.FloatField(default=0.0)
     view_score = models.FloatField(default=0.0)
     like_score = models.FloatField(default=0.0)

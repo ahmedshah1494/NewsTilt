@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'NewsTilt.NewsTiltApp',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
+    'django_crontab',
+
 ]
 
 MIDDLEWARE = [
@@ -48,7 +51,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CRONJOBS = [
+    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
+    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'NewsTilt.urls'
 

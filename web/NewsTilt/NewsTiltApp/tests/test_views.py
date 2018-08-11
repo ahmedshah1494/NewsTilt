@@ -1,5 +1,5 @@
 import random
-from django.test import TestCase, RequestFactory
+from django.test import TestCase, RequestFactory, Client
 from django.contrib.sessions.middleware import SessionMiddleware
 from NewsTilt.NewsTiltApp.models import *
 from NewsTilt.NewsTiltApp.views import *
@@ -22,7 +22,7 @@ class ViewTests(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-
+        self.client = Client()
     def test_get_categories(self):
         for i in range(5):
             CategoryFactory().save()
@@ -51,6 +51,7 @@ class ViewTests(TestCase):
         self.assertEquals(user.last_name, "Doe")
         self.assertTrue(cats[0] in [x.name for x in user.categories.all()])
         self.assertTrue(cats[1] in [x.name for x in user.categories.all()])
+        self.assertFalse(user.is_active)
 
     def test_login_user(self):
         user = MUser(first_name='John',
@@ -75,6 +76,23 @@ class ViewTests(TestCase):
         add_middleware_to_request(request, SessionMiddleware)
         response = login_user(request)
         self.assertEquals(response.status_code, 400)
+
+    def test_change_password(self):
+        user = MUser(first_name='John',
+                     last_name='Doe',
+                     username='johndoe')
+        user.set_password('123')
+        user.save()
+
+        self.client.login(username='johndoe', password='123')
+        response = self.client.post('/change_password', {'old_password': '123', 'password':'456'})        
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(MUser.objects.get(username='johndoe').check_password('456'))
+
+        self.client.login(username='johndoe', password='456')
+        response = self.client.post('/change_password', {'old_password': '123', 'password':'789'})
+        self.assertEquals(response.status_code, 400)
+        self.assertTrue(MUser.objects.get(username='johndoe').check_password('456'))
 
     def test_get_user_profile(self):
         user = MUser(first_name='John',
@@ -109,20 +127,20 @@ class ViewTests(TestCase):
         for i in range(10):
             ArticleFactory.create(categories=[random.choice(cats), random.choice(cats)]).save()
 
-        request = self.factory.get('/profile')
+        request = self.factory.get('/feed/3')
         request.user = user
         add_middleware_to_request(request, SessionMiddleware)
-        response = get_feed(request)
+        response = get_feed(request,3)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.data), 0)
 
         my_cats = Category.objects.all()[:2]
         for cat in my_cats:
             user.subscribe_to(cat)
-        request = self.factory.get('/profile')
+        request = self.factory.get('/feed/3')
         request.user = user
         add_middleware_to_request(request, SessionMiddleware)
-        response = get_feed(request)
+        response = get_feed(request,3)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.data), Article.objects.filter(categories__in=my_cats).count())
         for a in response.data:

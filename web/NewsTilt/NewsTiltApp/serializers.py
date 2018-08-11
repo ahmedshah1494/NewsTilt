@@ -4,7 +4,7 @@ from .models import *
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = ['id','name']
-        model = Category
+        model = Category        
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +31,8 @@ class MUserSerializer(serializers.ModelSerializer):
     def create(self, data):
         new_user = MUser(username=data['username'],
                                 first_name=data['first_name'],
-                                last_name=data['last_name'])
+                                last_name=data['last_name'],
+                                email=data['username'])
         new_user.set_password(data['password'])
         new_user.save()
         for cat in data['categories']:
