@@ -2,7 +2,7 @@ from .base import *
 import dj_database_url
 import os 
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['news-tilt-backend.herokuapp.com']
 
