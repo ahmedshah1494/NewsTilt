@@ -1,4 +1,5 @@
 *.db
+NewsTilt/NewsTiltApp/migrations/*
 .DS_Store
 .idea
 venv
