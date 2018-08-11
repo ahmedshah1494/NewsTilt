@@ -1,1 +1,1 @@
-web: gunicorn NewsTilt.wsgi
+web: gunicorn web.NewsTilt.wsgi
