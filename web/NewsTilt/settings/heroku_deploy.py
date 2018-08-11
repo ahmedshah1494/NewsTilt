@@ -4,6 +4,9 @@ DEBUG = False
 
 INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
 
+ROOT_URLCONF = 'web.NewsTilt.urls'
+WSGI_APPLICATION = 'web.NewsTilt.wsgi.application'
+
 DATABASE_URL = os.environ['DATABASE_URL']
 
 EMAIL_USE_TLS = True
@@ -14,6 +17,6 @@ EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CRONJOBS = [
-    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
-    ('*/2 * * * *', 'NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
+    ('*/2 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateArticleFeed'),
+    ('*/2 * * * *', 'web.NewsTilt.NewsTiltApp.cron.UpdateAuthorPublicationTilts'),
 ]

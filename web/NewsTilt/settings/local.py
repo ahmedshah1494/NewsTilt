@@ -5,6 +5,9 @@ DEBUG = True
 
 INSTALLED_APPS += ['NewsTilt.NewsTiltApp',]
 
+ROOT_URLCONF = 'NewsTilt.urls'
+WSGI_APPLICATION = 'NewsTilt.wsgi.application'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
