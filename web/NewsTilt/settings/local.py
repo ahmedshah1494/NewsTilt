@@ -3,6 +3,8 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+INSTALLED_APPS += ['NewsTilt.NewsTiltApp',]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

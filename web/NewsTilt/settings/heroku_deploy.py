@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
+
 DATABASE_URL = os.environ['DATABASE_URL']
 
 EMAIL_USE_TLS = True
