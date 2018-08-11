@@ -4,6 +4,8 @@ import os
 
 DEBUG = False
 
+ALLOWED_HOSTS = ['news-tilt-backend.herokuapp.com']
+
 INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
 
 ROOT_URLCONF = 'web.NewsTilt.NewsTiltApp.urls'
