@@ -14,9 +14,9 @@ class Command(BaseCommand):
 
     # @sched.scheduled_job('interval', minutes=1)
     def handle(self, *args, **options):
-        print 'pulling articles'
         # q = Queue(connection=conn)
         # result = q.enqueue(pull_from_all, (ARICLES_PER_PULL, True))
         while True:
+            print 'pulling articles'
             pull_from_all(n_articles=ARTICLES_PER_PULL, enroll=True)
             time.sleep(60 * MINS_BW_PULLS)
