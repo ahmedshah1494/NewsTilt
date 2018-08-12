@@ -9,7 +9,7 @@ from newsapi import NewsApiClient
 import time
 import os
 
-from .models import *
+from NewsTilt.NewsTiltApp.models import *
 
 def exception_wrapper(fun):
     """Wrap fun within a try-catch clause."""
