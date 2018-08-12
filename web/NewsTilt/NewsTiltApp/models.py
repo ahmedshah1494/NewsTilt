@@ -30,6 +30,7 @@ class MUser(Categorizable, AbstractUser):
     like_score = models.FloatField(default=0.0)
     conformity_score_right = models.FloatField(default=0.0)
     conformity_score_left = models.FloatField(default=0.0)
+    username = models.CharField(max_length=200, unique=True)
 
     def login(self, request):
         """Login the user."""

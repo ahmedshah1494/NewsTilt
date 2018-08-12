@@ -166,9 +166,9 @@ class NewsAPI(Scraper):
         sources = self.newsapi.get_sources(country='us',
                                            category='general')
         sources = sources['sources']
-        sources = ['abc-news', 'al-jazeera-english', 'associated-press', 'breitbart-news',
-                   'cbs-news', 'cnn', 'fox-news', 'msnbc'',nbc-news', 'newsweek',
-                   'politico', 'reuters', 'the-huffington-post', 'the-new-york-times',
+        sources = ['associated-press', 'breitbart-news',
+                   'cbs-news', 'cnn','nbc-news',
+                   'politico', 'reuters', 'the-huffington-post',
                    'the-washington-post', 'the-washington-times', 'time', 'usa-today',
                    'vice-news']
         # sources = [x['id'] for x in sources]

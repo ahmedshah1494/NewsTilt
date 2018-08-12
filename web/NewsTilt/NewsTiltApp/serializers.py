@@ -21,7 +21,7 @@ class PublicationSerializer(serializers.ModelSerializer):
 class MUserSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(label='First Name', max_length=100, required=True)
     last_name = serializers.CharField(label='Last Name', max_length=100, required=True)
-    username = serializers.CharField(label='Username', max_length=20, required=True)
+    username = serializers.CharField(label='Username', max_length=200, required=True)
     password = serializers.CharField(label='Password', max_length=100, required=True)
     categories = CategorySerializer(many=True)
 
