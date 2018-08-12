@@ -114,6 +114,9 @@ def get_user_profile(request):
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def get_feed(request, start_idx, n_items):
+    start_idx = int(start_idx)
+    n_items = int(n_items)
+    
     user = request.user
     if user.categories.all().count() == 0:
         articles = Article.objects.all()
