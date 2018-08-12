@@ -8,8 +8,8 @@ from django.contrib.auth import login
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
-from NewsTilt.NewsTiltApp.constants import *
-from NewsTilt.NewsTiltApp.mixins import *
+from .constants import *
+from .mixins import *
 
 class Category(models.Model):
     """Categories of news publications and articles."""
