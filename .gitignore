@@ -1,5 +1,6 @@
 *.db
 *.pyc
+*/migrations/*
 .DS_Store
 .idea
 venv
