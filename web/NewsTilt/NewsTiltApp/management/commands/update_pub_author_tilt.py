@@ -15,5 +15,5 @@ class Command(BaseCommand):
                 recalculate_author_tilt(author)
             pubs = Publication.objects.all()
             for pub in pubs:
-                recalculate_publication_tilt(pubs)
+                recalculate_publication_tilt(pub)
             time.sleep((3600) * HOURS_BW_AUTH_PUB_TILT_RECALC)
