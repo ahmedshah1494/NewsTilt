@@ -113,13 +113,17 @@ def get_user_profile(request):
 @api_view(['GET'])
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
-def get_feed(request, n_items):
+def get_feed(request, start_idx, n_items):
     user = request.user
     if user.categories.all().count() == 0:
         articles = Article.objects.all()
     else:
         articles = Article.objects.filter(categories__in=user.categories.all())
-    articles = articles.order_by('-date_added')[:n_items]
+    
+    if start_idx < 0 or start_idx > len(articles)-1:
+        return Response([], status=status.HTTP_400_BAD_REQUEST)
+        
+    articles = articles.order_by('-date_added')[start_idx:min(start_idx+n_items,len(articles))]
     serializer = ArticleSerializer(articles, many=True)
     data = serializer.data
     for article in data:

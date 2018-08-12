@@ -127,20 +127,20 @@ class ViewTests(TestCase):
         for i in range(10):
             ArticleFactory.create(categories=[random.choice(cats), random.choice(cats)]).save()
 
-        request = self.factory.get('/feed/3')
+        request = self.factory.get('/feed/0/3')
         request.user = user
         add_middleware_to_request(request, SessionMiddleware)
-        response = get_feed(request,3)
+        response = get_feed(request,0,3)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.data), 3)
 
         my_cats = Category.objects.all()[:2]
         for cat in my_cats:
             user.subscribe_to(cat)
-        request = self.factory.get('/feed/3')
+        request = self.factory.get('/feed/0/3')
         request.user = user
         add_middleware_to_request(request, SessionMiddleware)
-        response = get_feed(request,3)
+        response = get_feed(request,0,3)
         self.assertEquals(response.status_code, 200)
         self.assertEquals(len(response.data), Article.objects.filter(categories__in=my_cats).count())
         for a in response.data:
