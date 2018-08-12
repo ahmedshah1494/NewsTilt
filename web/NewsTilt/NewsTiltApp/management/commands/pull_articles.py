@@ -2,8 +2,8 @@ from django.core.management.base import BaseCommand, CommandError
 
 # from apscheduler.schedulers.blocking import BlockingScheduler
 import time
-from NewsTilt.NewsTiltApp.scrapers import pull_from_all
-from NewsTilt.NewsTiltApp.constants import *
+from web.NewsTilt.NewsTiltApp.scrapers import pull_from_all
+from web.NewsTilt.NewsTiltApp.constants import *
 # from rq import Queue
 # from worker import conn
 
