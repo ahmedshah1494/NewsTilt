@@ -8,6 +8,9 @@ ALLOWED_HOSTS = ['news-tilt-backend.herokuapp.com']
 
 INSTALLED_APPS += ['web.NewsTilt.NewsTiltApp',]
 
+import django
+django.setup()
+
 ROOT_URLCONF = 'web.NewsTilt.NewsTiltApp.urls'
 WSGI_APPLICATION = 'web.NewsTilt.wsgi.application'
 
