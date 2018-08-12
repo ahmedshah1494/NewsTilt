@@ -26,6 +26,7 @@ from .tokens import account_activation_token
 from .models import *
 from .serializers import *
 from .tilt import *
+from .scrapers import pull_from_all
 
 # Create your views here.
 
