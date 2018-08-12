@@ -121,8 +121,8 @@ def get_feed(request, start_idx, n_items):
         articles = Article.objects.filter(categories__in=user.categories.all())
     
     if start_idx < 0 or start_idx > len(articles)-1:
-        return Response([], status=status.HTTP_400_BAD_REQUEST)
-        
+        return Response({'error': "start_idx must be greater than 0 and less than %d"%(len(articles)-1)}, status=status.HTTP_400_BAD_REQUEST)
+
     articles = articles.order_by('-date_added')[start_idx:min(start_idx+n_items,len(articles))]
     serializer = ArticleSerializer(articles, many=True)
     data = serializer.data
