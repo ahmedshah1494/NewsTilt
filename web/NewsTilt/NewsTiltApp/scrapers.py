@@ -182,6 +182,7 @@ class NewsAPI(Scraper):
         for a in articles:
             a['categories'] = ['US']
             a['source'] = a['source']['name']
+        articles = filter(lambda a: 'author' in a and a['author'] not in [None, ''], articles)
         return articles
 
 def get_scraper_list():
@@ -241,7 +242,7 @@ def pull_from_all(n_articles=10, enroll=False):
     articles = filter(lambda x: x is not None, articles)
 
     if enroll:
-        for article in articles:
+        for article in articles:            
             deserialize_and_enroll(article)
     
     return articles
