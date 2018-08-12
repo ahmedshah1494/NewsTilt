@@ -1,16 +1,6 @@
 import numpy as np
 from .models import *
-
-ARTICLE_SWIPE_WEIGHT = 0.6
-ARTICLE_LIKE_WEIGHT = 0.25
-ARTICLE_VIEW_WEIGHT = 0.15
-
-USER_BIAS_WEIGHT = 0.1
-USER_CONFORMITY_WEIGHT = 0.2
-USER_LIKE_WEIGHT = 0.45
-USER_VIEW_WEIGHT= 0.25
-
-EPS = 1e-5
+from .constants import *
 
 def recalculate_article_tilt(article, action):
     swipes = Swipe.objects.filter(article=article)

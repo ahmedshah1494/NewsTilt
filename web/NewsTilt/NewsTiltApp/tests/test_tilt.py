@@ -25,7 +25,7 @@ class TiltTests(TestCase):
             recalculate_article_tilt(article, swipe)
             self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
 
-        self.assertEquals(article.tilt, -ARTICLE_SWIPE_WEIGHT)
+        self.assertTrue(article.tilt < 0)
 
         # Following that with two right swipes should make it 0, since the weight is 1
         for i in range(2):
@@ -36,7 +36,7 @@ class TiltTests(TestCase):
             recalculate_article_tilt(article, swipe)
             self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
 
-        self.assertEquals(article.tilt, 0)
+        self.assertEquals(round(article.tilt, 3), 0)
 
         # Making two more right swipes should make the tilt positive
         for i in range(2):
@@ -80,7 +80,7 @@ class TiltTests(TestCase):
         like.save()
         recalculate_article_tilt(article, like)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
-        self.assertEquals(article.tilt, 0.0)
+        self.assertEquals(round(article.tilt,3), 0)
 
         # Another like by a leftist would tilt it to the left
         user = MUserFactory()
@@ -124,7 +124,7 @@ class TiltTests(TestCase):
         view.save()
         recalculate_article_tilt(article, view)
         self.assertTrue(article.tilt >= -1.0 and article.tilt <= 1.0)
-        self.assertEquals(article.tilt, 0.0)
+        self.assertEquals(round(article.tilt,3), 0)
 
         # Another view by a leftist would tilt it to the left
         user = MUserFactory()
@@ -168,3 +168,85 @@ class TiltTests(TestCase):
         swipe.save()
         recalculate_user_tilt(user, swipe)
         self.assertTrue(user.tilt < 0)
+
+    def test_author_tilt_basic(self):
+        # Since the user tilt is 0, view should have no effect
+        author = AuthorFactory()
+        author.save()
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(author=author)
+            swipe = Swipe(user=user, article=article, direction='l')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(author.tilt >= -1.0 and author.tilt <= 1.0)
+
+        recalculate_author_tilt(author)
+        self.assertTrue(author.tilt < 0)
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(author=author)
+            swipe = Swipe(user=user, article=article, direction='r')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(author.tilt >= -1.0 and author.tilt <= 1.0)
+
+        recalculate_author_tilt(author)
+        self.assertEquals(round(author.tilt,3), 0)
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(author=author)
+            swipe = Swipe(user=user, article=article, direction='r')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(author.tilt >= -1.0 and author.tilt <= 1.0)
+
+        recalculate_author_tilt(author)
+        self.assertTrue(author.tilt > 0)
+
+    def test_publication_tilt_basic(self):
+        # Since the user tilt is 0, view should have no effect
+        source = PublicationFactory()
+        source.save()
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(source=source)
+            swipe = Swipe(user=user, article=article, direction='l')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(source.tilt >= -1.0 and source.tilt <= 1.0)
+
+        recalculate_publication_tilt(source)
+        self.assertTrue(source.tilt < 0)
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(source=source)
+            swipe = Swipe(user=user, article=article, direction='r')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(source.tilt >= -1.0 and source.tilt <= 1.0)
+
+        recalculate_publication_tilt(source)
+        self.assertEquals(round(source.tilt,3), 0)
+
+        for i in range(2):
+            user = MUserFactory()
+            user.save()
+            article = ArticleFactory(source=source)
+            swipe = Swipe(user=user, article=article, direction='r')
+            swipe.save()            
+            recalculate_article_tilt(article, swipe)
+            self.assertTrue(source.tilt >= -1.0 and source.tilt <= 1.0)
+
+        recalculate_publication_tilt(source)
+        self.assertTrue(source.tilt > 0)

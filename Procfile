@@ -1,1 +1,1 @@
-web: gunicorn web.NewsTilt.wsgi & python web/manage.py pull_articles --settings=web.NewsTilt.settings.heroku_deploy & wait -n
+web: gunicorn web.NewsTilt.wsgi & python web/manage.py pull_articles --settings=web.NewsTilt.settings.heroku_deploy & python web/manage.py update_pub_author_tilt --settings=web.NewsTilt.settings.heroku_deploy & wait -n
