@@ -1,6 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
-from scrapers import pull_from_all
-from constants import *
+from .scrapers import pull_from_all
+from .constants import *
 from rq import Queue
 from worker import conn
 
