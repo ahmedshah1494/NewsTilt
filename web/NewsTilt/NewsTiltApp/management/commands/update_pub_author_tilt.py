@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         while True:
-            print 'pulling articles'
+            print 'updating tilts'
             authors = Author.objects.all()
             for author in authors:
                 recalculate_author_tilt(author)
