@@ -1,1 +1,1 @@
-web: gunicorn web.NewsTilt.wsgi & python web/NewsTilt/NewsTiltApp/clock.py & worker.py & wait -n
+web: gunicorn web.NewsTilt.wsgi & python web/NewsTilt/NewsTiltApp/clock.py & python worker.py & wait -n
