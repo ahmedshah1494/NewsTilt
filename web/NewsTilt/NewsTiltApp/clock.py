@@ -6,7 +6,8 @@ from worker import conn
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', minutes=120)
+@sched.scheduled_job('interval', minutes=1)
 def timed_job():
+    print 'pulling articles'
     q = Queue(connection=conn)
     result = q.enqueue(pull_from_all, (ARICLES_PER_PULL, True))
