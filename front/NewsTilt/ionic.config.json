@@ -1,0 +1,7 @@
+{
+  "name": "NewsTilt",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

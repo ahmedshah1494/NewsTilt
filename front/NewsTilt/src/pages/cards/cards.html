@@ -1,0 +1,58 @@
+  <ion-header>
+
+  <ion-navbar>
+    <ion-row>
+      <ion-col>
+        <ion-title>News Feed</ion-title>    
+      </ion-col>
+      <ion-col align='right'>
+        <button ion-button clear (click)="logout()">logout</button>
+      </ion-col>
+    </ion-row>      
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <ion-card *ngFor="let item of cardItems">
+
+    <img [src]="item.image_url" (click)="open_article(item)">
+
+    <ion-card-title>{{item.title}}</ion-card-title>
+    <ion-item>
+      <h2>{{item.source.name}}</h2>
+      <p>{{item.date_added}}</p>
+    </ion-item>
+    <ion-card-content>      
+      <p>{{item.description}}</p>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <button ion-button color="primary" clear small icon-start>
+            <ion-icon name='heart'></ion-icon>
+            {{item.n_likes}} Likes
+          </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button color="primary" clear small icon-start>
+            <ion-icon name='speedometer'></ion-icon>
+            {{item.tilt[1]}}
+          </button>
+      </ion-col>
+      <ion-col center text-center>
+        <ion-note>
+          11h ago
+        </ion-note>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())">
+   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+ </ion-infinite-scroll>
+
+ 
+</ion-content>

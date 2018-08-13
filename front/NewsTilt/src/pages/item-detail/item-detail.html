@@ -1,0 +1,42 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-row>
+        <ion-col>
+            <ion-row>
+                <ion-col align='center'>
+                    <ion-icon name='heart'></ion-icon>
+                    {{article.n_likes}} Likes
+                </ion-col>
+                <ion-col align='center'>
+                    <ion-icon name='speedometer'></ion-icon>
+                    {{article.tilt[1]}}
+                </ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-col>
+            <button ion-button color="primary" clear small icon-start (click)='like()'>
+                <ion-icon name='heart-outline'></ion-icon>
+            </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button color="primary" clear small icon-start (click)='swipe_left()'>
+                    <ion-icon name='arrow-dropleft-circle'></ion-icon>
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button color="primary" clear small icon-start (click)='swipe_right()'>
+                    <ion-icon name='arrow-dropright-circle'></ion-icon>
+                </button>
+            </ion-col>
+        </ion-col>        
+    </ion-row>
+  </ion-navbar>
+
+</ion-header>
+
+
+<div class= 'webPage'>
+    <iframe name= "samplePage" [src]="get_url()"></iframe>
+</div>
