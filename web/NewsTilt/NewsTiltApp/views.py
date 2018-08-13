@@ -116,7 +116,7 @@ def get_user_profile(request):
 def get_feed(request, start_idx, n_items):
     start_idx = int(start_idx)
     n_items = int(n_items)
-    
+
     user = request.user
     if user.categories.all().count() == 0:
         articles = Article.objects.all()
@@ -146,6 +146,7 @@ def update_tilts(instance, **kwargs):
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def like_article(request, article_id):
+    article_id = int(article_id)
     if not Article.objects.filter(id=article_id).exists():
         return Response({'error': "Article with pk %d does not exist."%article_id}, status=status.HTTP_404_NOT_FOUND)
     article = Article.objects.get(id=article_id)
@@ -160,6 +161,7 @@ def like_article(request, article_id):
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def swipe_article(request, article_id, direction):
+    article_id = int(article_id)
     if not Article.objects.filter(id=article_id).exists():
         return Response({'error': "Article with pk %d does not exist."%article_id}, status=status.HTTP_404_NOT_FOUND)
     if direction not in ['l','r']:
@@ -176,6 +178,7 @@ def swipe_article(request, article_id, direction):
 @authentication_classes((SessionAuthentication, BasicAuthentication))
 @permission_classes((IsAuthenticated,))
 def view_article(request, article_id):
+    article_id = int(article_id)
     if not Article.objects.filter(id=article_id).exists():
         return Response({'error': "Article with pk %d does not exist."%article_id}, status=status.HTTP_404_NOT_FOUND)
     article = Article.objects.get(id=article_id)
