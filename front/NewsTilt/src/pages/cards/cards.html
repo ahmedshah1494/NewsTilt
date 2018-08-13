@@ -16,14 +16,15 @@
 
 <ion-content>
 
-  <ion-card *ngFor="let item of cardItems">
+  <ion-card *ngFor="let item of cardItems;let index = index;trackBy:trackByIndex;">
 
     <img [src]="item.image_url" (click)="open_article(item)">
 
     <ion-card-title>{{item.title}}</ion-card-title>
     <ion-item>
-      <h2>{{item.source.name}}</h2>
-      <p>{{item.date_added}}</p>
+      <h2>{{item.source.name}} - {{item.author.name}}</h2>
+      <!-- <ion-datetime displayFormat="MMM DD, YYYY HH:mm" [(ngModel)]="cardItems[index].date_added"></ion-datetime> -->
+      <p>{{cardItems[index].date_added | date: "HH:mm MM/dd"}}</p>
     </ion-item>
     <ion-card-content>      
       <p>{{item.description}}</p>
@@ -54,5 +55,5 @@
    <ion-infinite-scroll-content></ion-infinite-scroll-content>
  </ion-infinite-scroll>
 
- 
+
 </ion-content>
